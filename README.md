@@ -10,7 +10,7 @@ Usage
 To use the script, run the following command:
 
 ```
-python proxychains_config_builder.py -f <input_file> -o <output_file> [options]
+python pca-config-builder.py -f <input_file> -o <output_file> [options]
 ```
 
 
@@ -48,22 +48,22 @@ Examples
 --------
 1. Test proxies from `input.txt` and generate a ProxyChains configuration file named `proxychains.conf`:
    ```
-   python proxychains_config_builder.py -f input.txt -o proxychains.conf
+   python pca-config-builder.py -f input.txt -o proxychains.conf
    ```
 
 2. Test proxies with verbose output and maximum 20 working proxies:
    ```
-   python proxychains_config_builder.py -f input.txt -o proxychains.conf -v -m 20
+   python pca-config-builder.py -f input.txt -o proxychains.conf -v -m 20
    ```
 
 3. Test HTTP proxies only:
    ```
-   python proxychains_config_builder.py -f input.txt -o proxychains.conf -p http
+   python pca-config-builder.py -f input.txt -o proxychains.conf -p http
    ```
 
 4. Suppress all output and test proxies using socks4:
    ```
-   python proxychains_config_builder.py -f input.txt -o proxychains.conf -s -p socks4
+   python pca-config-builder.py -f input.txt -o proxychains.conf -s -p socks4
    ```
 
 Customization
@@ -85,7 +85,7 @@ Usage
 To use the script, run the following command:
 
 ```
-python proxy_tester.py -f <input_file> [options]
+python pca-tester.py -f <input_file> [options]
 ```
 
 Arguments:
@@ -115,22 +115,22 @@ Examples
 --------
 1. Test proxies from `input.txt` and print working proxies to standard output:
    ```
-   python proxy_tester.py -f input.txt
+   python pca-tester.py -f input.txt
    ```
 
 2. Test proxies and save the working proxies to `output.txt`:
    ```
-   python proxy_tester.py -f input.txt -o output.txt
+   python pca-tester.py -f input.txt -o output.txt
    ```
 
 3. Test HTTPS proxies with verbose error messages:
    ```
-   python proxy_tester.py -f input.txt -p https -v
+   python pca-tester.py -f input.txt -p https -v
    ```
 
 4. Test proxies and limit the number of working proxies to 20:
    ```
-   python proxy_tester.py -f input.txt -m 20
+   python pca-tester.py -f input.txt -m 20
    ```
 
 Customization
