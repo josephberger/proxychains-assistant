@@ -15,7 +15,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-f', '--file', help='File containing proxies, one per line', required=True)
 parser.add_argument('-o', '--output', help='Output file for working proxies', required=True)
 parser.add_argument('-s', '--suppress', action='store_true', help='Suppress all output')
-parser.add_argument('-w', '--workers', type=int, default=10, help='Number of concurrent workers to use, default is 10')
+parser.add_argument('-w', '--workers', type=int, default=10, help='Number of concurrent workers to use, default is 10 and max is 20')
 parser.add_argument('-c', '--chain-len', type=int, default=3, help='Number of proxies to use in the proxy chain (set chain_len in config list)')
 parser.add_argument('-i', '--ignore-cert', action='store_true', help='Consider the proxy still good even if a certificate verification error is thrown.')
 parser.add_argument('-m','--max-list', type=int, default=None, help='Maximum number of working proxies to include in the output file')
@@ -28,16 +28,26 @@ args = parser.parse_args()
 if not re.match(r'^(https?://)?(?:[-\w.]|(?:%[\da-fA-F]{2}))+$', args.test_url):
     raise ValueError('Invalid test URL format')
 
+# Validate workers
+if type(args.workers) != int:
+    raise ValueError('Invalid input for workers')
+elif args.workers > 20 or args.workers < 1:
+    raise ValueError('Invalid input for workers')
+
 working_proxies = []
+
+config = ['random_chain', f'chain_len = {args.chain_len}', 'proxy_dns',
+              'remote_dns_subnet 224', 'tcp_read_time_out 15000', 'tcp_connect_time_out 8000', '[ProxyList]']
 
 # Read proxies from file
 with open(args.file, 'r') as f:
     proxies = [line.strip() for line in f]
 
 # Open output file in append mode
-output_file = None
 if args.output:
-    output_file = open(args.output, 'w')
+    with open(args.output, 'w') as file:
+        file.write("\n".join(config))
+        file.write("\n")
 
 def test_proxy(proxy):
     # Set up the proxy URL for requests
