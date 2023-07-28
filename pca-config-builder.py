@@ -36,8 +36,8 @@ with open(args.file, 'r') as f:
 
 # Open output file in append mode
 output_file = None
-if args.output_file:
-    output_file = open(args.output_file, 'a')
+if args.output:
+    output_file = open(args.output, 'w')
 
 def test_proxy(proxy):
     # Set up the proxy URL for requests
